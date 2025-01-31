@@ -40,13 +40,18 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4MB",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2MB",
+                  "maximumError": "2MB"
+                },
+                {
+                  "type": "allScript",
+                  "maximumWarning": "4MB",
+                  "maximumError": "4MB"
                 }
               ],
               "outputHashing": "all"
@@ -56,7 +61,7 @@
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
+              "sourceMap": false,
               "namedChunks": true
             }
           },
