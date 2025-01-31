@@ -35,9 +35,9 @@ export class SearchComponent implements OnInit{
   minDate = new Date().toISOString().split('T')[0];
   
   popularRoutes: Route[] = [
-    { from: 'Mumbai', to: 'Pune', price: 399, busCount: 50 },
-    { from: 'Bangalore', to: 'Chennai', price: 599, busCount: 45 },
-    { from: 'Delhi', to: 'Jaipur', price: 499, busCount: 35 }
+    { from: 'Mumbai', to: 'Delhi', price: 399, busCount: 50 },
+    { from: 'Chennai', to: 'Bangalore', price: 599, busCount: 45 },
+    { from: 'Pune', to: 'Nagpur', price: 499, busCount: 35 }
   ];
 
   filteredFromCities: string[] = [];
