@@ -2,12 +2,12 @@
 
 Green Bus is an inter-city bus booking platform designed to make travel seamless, efficient, and environmentally friendly. This project simplifies the process of finding and reserving bus seats with an intuitive Angular-based frontend and a robust backend system.
 
-✨ Features:
-✅ User-Friendly Seat Selection – Interactive UI for hassle-free booking
-✅ Real-Time Availability – Check and reserve seats instantly
-✅ Secure Payments – Smooth and safe transaction process
-✅ Eco-Friendly Travel – Encouraging sustainable transport solutions
-✅ Admin Dashboard – Manage routes, schedules, and bookings effortlessly
+✨ Features:  
+✅ User-Friendly Seat Selection – Interactive UI for hassle-free booking  
+✅ Real-Time Availability – Check and reserve seats instantly  
+✅ Secure Payments – Smooth and safe transaction process  
+✅ Eco-Friendly Travel – Encouraging sustainable transport solutions  
+✅ Admin Dashboard – Manage routes, schedules, and bookings effortlessly  
 
 🛠️ Tech Stack:
 Frontend: Angular, Tailwind CSS
