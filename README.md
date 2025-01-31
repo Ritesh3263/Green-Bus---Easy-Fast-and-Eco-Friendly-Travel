@@ -15,7 +15,7 @@ Backend: (Specify your backend – Node.js, Firebase, etc.)
 Database: (Mention if using MongoDB, MySQL, Firebase, etc.)  
 
 🚀 Get Started:  
-Clone the repo: git clone https://github.com/Ritesh3263/Green-Bus---Easy-Fast-and-Eco-Friendly-Travel.git
+Clone the repo: git clone https://github.com/Ritesh3263/Green-Bus---Easy-Fast-and-Eco-Friendly-Travel.git  
 Install dependencies: npm install  
 Run the app: ng serve  
 
