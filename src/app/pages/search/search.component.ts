@@ -81,12 +81,22 @@ export class SearchComponent implements OnInit{
     const toCity = this.searchObj.to;
     const travelDate = this.searchObj.travelDate;
 
-    console.log(fromCity, toCity, travelDate);
+    // console.log(fromCity, toCity, travelDate);
     // const {fromCity,toCity,travelDate} = this.searchObj;
     this.masterService.searchBus(fromCity,toCity,travelDate).subscribe((res:any)=>{
       this.filteredBuses = res;
       // console.log('Filtered buses:', this.filteredBuses);  // Log the filtered buses
     });
+  
+  }
+
+  scrollDown() {
+    if (window.innerWidth <= 768) { // Adjust 768px as needed for mobile
+      window.scrollBy({
+        top: 600, // Adjust scroll amount
+        behavior: 'smooth'
+      });
+    }
   }
 
   resetSearch(){
