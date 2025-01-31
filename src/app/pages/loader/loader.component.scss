@@ -1,0 +1,80 @@
+// loading-screen.scss
+
+.loading-screen {
+    // Hide loading screen after animation
+    animation: hideLoader 0.3s ease-in-out 5s forwards;
+  }
+  
+  .bus-logo {
+    animation: busFloat 1s ease-out infinite;
+  }
+  
+  .road {
+    &-line {
+      width: 200%;
+      background: repeating-linear-gradient(
+        to right,
+        #16a34a 0%,
+        #16a34a 50%,
+        transparent 50%,
+        transparent 100%
+      );
+      background-size: 20px 100%;
+      animation: roadMove 1s linear infinite;
+    }
+  }
+  
+  .loading-dot {
+    display: inline-block;
+    margin-left: 2px;
+    animation: dotBounce 1.4s infinite ease-in-out;
+  }
+  
+  // Keyframe Animations
+  @keyframes busFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  @keyframes roadMove {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @keyframes dotBounce {
+    0%, 20% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+    80%, 100% {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes hideLoader {
+    from {
+      opacity: 1;
+      visibility: visible;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  
+  // Optional: Add this if you want to show/hide loader using JavaScript
+  .loading-screen {
+    &.hidden {
+      display: none;
+    }
+  }

@@ -19,6 +19,7 @@ import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { JourneyTimePipe } from './pipes/pipes';
 import { BookingConfirmedComponent } from './pages/booking-confirmed/booking-confirmed.component';
 import { SeparatePipe } from 'src/app/pipes/seperate.pipes';
+import { LoaderComponent } from './pages/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SeparatePipe } from 'src/app/pipes/seperate.pipes';
     BookingComponent,
     JourneyTimePipe,
     BookingConfirmedComponent,
-    SeparatePipe
+    SeparatePipe,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

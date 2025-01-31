@@ -1,1 +1,5 @@
-<router-outlet></router-outlet>
+<app-loader *ngIf="isLoading"></app-loader>
+<!-- Your main app content goes here -->
+<div *ngIf="!isLoading">
+  <router-outlet></router-outlet>
+</div>
