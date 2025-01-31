@@ -73,7 +73,6 @@ export class SearchComponent implements OnInit{
   swapCities() {
     [this.searchObj.from, this.searchObj.to] = [this.searchObj.to, this.searchObj.from];
     // console.log(this.fromCity, this.toCity);
-
   }
 
   searchBuses() {
@@ -81,13 +80,14 @@ export class SearchComponent implements OnInit{
     const toCity = this.searchObj.to;
     const travelDate = this.searchObj.travelDate;
 
-    // console.log(fromCity, toCity, travelDate);
+    // console.log(this.searchObj.from, this.searchObj.to, this.searchObj.travelDate);
     // const {fromCity,toCity,travelDate} = this.searchObj;
     this.masterService.searchBus(fromCity,toCity,travelDate).subscribe((res:any)=>{
       this.filteredBuses = res;
-      // console.log('Filtered buses:', this.filteredBuses);  // Log the filtered buses
+        // Log the filtered buses
+        // console.log(res);
     });
-  
+    // console.log('Filtered buses:', this.filteredBuses);
   }
 
   scrollDown() {

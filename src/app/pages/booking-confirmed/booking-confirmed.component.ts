@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -6,10 +6,18 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './booking-confirmed.component.html',
   styleUrls: ['./booking-confirmed.component.scss']
 })
-export class BookingConfirmedComponent {
+export class BookingConfirmedComponent implements OnInit {
   appTitle: string = '';
   selectedSeats: any[] = [];
+  randomReference: string = ''; // Declare this variable
 
+  ngOnInit(): void {  // Corrected lifecycle hook name
+    // Generate the random reference when the component is initialized
+    this.randomReference = this.generateRandomReference();
+    
+    // Trigger change detection manually to ensure everything is settled
+    // this.cdr.detectChanges();
+  }
 
   constructor(private titleService: Title) {
     this.appTitle = this.titleService.getTitle();
@@ -28,8 +36,8 @@ export class BookingConfirmedComponent {
     return `${prefix}-${randomPart}`;
   }
   // You can also use a getter for convenience
-  get randomReference(): string {
-    return this.generateRandomReference();
-  }
+  // get randomReference(): string {
+  //   return this.generateRandomReference();
+  // }
 
 }

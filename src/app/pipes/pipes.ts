@@ -7,14 +7,30 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class JourneyTimePipe implements PipeTransform {
 
   transform(departureTime: string, arrivalTime: string): string {
-    const departureDate = new Date(departureTime);
-    const arrivalDate = new Date(arrivalTime);
+    if (!departureTime || !arrivalTime) {
+      return "Invalid time"; // Handle missing inputs
+    }
+  
+    // Parse the hours and minutes from the hh:mm string format
+    const [departureHours, departureMinutes] = departureTime.split(':').map(Number);
+    const [arrivalHours, arrivalMinutes] = arrivalTime.split(':').map(Number);
 
-    const journeyDurationMs = arrivalDate.getTime() - departureDate.getTime();
-    
-    const hours = Math.floor(journeyDurationMs / (1000 * 60 * 60)); // Get full hours
-    const minutes = Math.floor((journeyDurationMs % (1000 * 60 * 60)) / (1000 * 60)); // Get minutes
+      // Convert the times to total minutes from midnight
+      const departureTotalMinutes = departureHours * 60 + departureMinutes;
+      const arrivalTotalMinutes = arrivalHours * 60 + arrivalMinutes;
 
-    return `${hours}h ${minutes}m`;
+      // Calculate the journey duration in minutes
+      let journeyDurationMinutes = arrivalTotalMinutes - departureTotalMinutes;
+
+      // If the arrival time is before the departure time, it means the arrival is on the next day
+      if (journeyDurationMinutes < 0) {
+        journeyDurationMinutes += 24 * 60; // Add 24 hours worth of minutes (1440 minutes)
+      }
+
+      // Convert the journey duration back to hours and minutes
+      const hours = Math.floor(journeyDurationMinutes / 60);
+      const minutes = journeyDurationMinutes % 60;
+
+      return `${hours}h ${minutes}m`;
   }
 }

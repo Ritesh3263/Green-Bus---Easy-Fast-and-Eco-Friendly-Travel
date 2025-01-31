@@ -13,7 +13,7 @@
                     </div>
                     <div class="flex flex-wrap flex-row items-center gap-4 sm:gap-6 mt-4">
                         <div>
-                            <p class="text-xl sm:text-2xl font-semibold">{{scheduleData?.departureTime | date:'HH:mm'}}</p>
+                            <p class="text-xl sm:text-2xl font-semibold">{{scheduleData?.departureTime}}</p>
                             <p class="text-gray-600">{{scheduleData?.fromLocationName}}</p>
                         </div>
                         <div class="flex items-center gap-2">
@@ -23,11 +23,11 @@
                             <div class="h-[2px] w-6  md:w-16 bg-gray-300 block"></div>
                         </div>
                         <div>
-                            <p class="text-xl sm:text-2xl font-semibold">{{scheduleData?.arrivalTime | date:'HH:mm'}}</p>
+                            <p class="text-xl sm:text-2xl font-semibold">{{scheduleData?.arrivalTime}}</p>
                             <p class="text-gray-600">{{scheduleData?.toLocationName}}</p>
                         </div>
                     </div>
-                    <p class="text-gray-600 mt-2">{{scheduleData?.departureTime | date: 'fullDate'}}</p>
+                    <p class="text-gray-600 mt-2">{{scheduleData?.scheduleDate | date: 'fullDate'}}</p>
                 </div>
                 <button [routerLink]="['/search']" class="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -98,16 +98,17 @@
                                     <div class="w-full h-10 md:h-16 bg-transparent"></div>
                                     <!-- Seat that would've been in aisle, shifted right -->
                                     <button 
-                                        (click)="toggleSeat(seat)"
+                                        (click)="seat.status !== 'booked' && toggleSeat(seat)"
                                         [ngClass]="{
-                                            'bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer': seat.gender === null,
+                                            'bg-white hover:bg-green-50 hover:border-green-500': seat.gender === null,
                                             'bg-pink-100 border-pink-300': seat.gender === 'ladies',
                                             'bg-gray-200 border-gray-300': seat.gender === 'gents',
                                             'cursor-not-allowed opacity-50': seat.status === 'booked',
+                                            'cursor-pointer': seat.status === 'available',
                                             '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
  
                                         }" 
-                                        class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                        class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 transition-all duration-200">
                                         <div class="text-center">
                                             <span class="text-sm font-medium">{{ seat.label }}</span>
                                         </div>
@@ -117,16 +118,17 @@
                                 <!-- Regular seats (not in aisle position) -->
                                 <button 
                                     *ngIf="i % 3 !== 1"
-                                    (click)="toggleSeat(seat)"
+                                    (click)="seat.status !== 'booked' && toggleSeat(seat)"
                                     [ngClass]="{
-                                        'bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer': seat.gender === null,
+                                        'bg-white hover:bg-green-50 hover:border-green-500': seat.gender === null,
                                         'bg-pink-100 border-pink-300': seat.gender === 'ladies',
                                         'bg-gray-200 border-gray-300': seat.gender === 'gents',
                                         'cursor-not-allowed opacity-50': seat.status === 'booked',
+                                        'cursor-pointer': seat.status === 'available',
                                         '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
 
                                     }" 
-                                    class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                    class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 transition-all duration-200">
                                     <div class="text-center">
                                         <span class="text-sm font-medium">{{ seat.label }}</span>
                                     </div>
@@ -143,16 +145,17 @@
                                     <div class="w-full h-10 md:h-16 bg-transparent"></div>
                                     <!-- Seat that would've been in aisle, shifted right -->
                                     <button 
-                                        (click)="toggleSeat(seat)"
+                                        (click)="seat.status !== 'booked' && toggleSeat(seat)"
                                         [ngClass]="{
-                                            'bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer': seat.gender === null,
+                                            'bg-white hover:bg-green-50 hover:border-green-500 ': seat.gender === null,
                                             'bg-pink-100 border-pink-300': seat.gender === 'ladies',
                                             'bg-gray-200 border-gray-300': seat.gender === 'gents',
                                             'cursor-not-allowed opacity-50': seat.status === 'booked',
+                                            'cursor-pointer': seat.status === 'available',
                                             '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
  
                                         }" 
-                                        class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                        class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 transition-all duration-200">
                                         <div class="text-center">
                                             <span class="text-sm font-medium">{{ seat.label }}</span>
                                         </div>
@@ -162,16 +165,17 @@
                                 <!-- Regular seats (not in aisle position) -->
                                 <button 
                                     *ngIf="i % 3 !== 1"
-                                    (click)="toggleSeat(seat)"
+                                    (click)="seat.status !== 'booked' && toggleSeat(seat)"
                                     [ngClass]="{
-                                        'bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer': seat.gender === null,
+                                        'bg-white hover:bg-green-50 hover:border-green-500': seat.gender === null,
                                         'bg-pink-100 border-pink-300': seat.gender === 'ladies',
                                         'bg-gray-200 border-gray-300': seat.gender === 'gents',
                                         'cursor-not-allowed opacity-50': seat.status === 'booked',
+                                        'cursor-pointer': seat.status === 'available',
                                         '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
 
                                     }" 
-                                    class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                    class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 transition-all duration-200">
                                     <div class="text-center">
                                         <span class="text-sm font-medium">{{ seat.label }}</span>
                                     </div>

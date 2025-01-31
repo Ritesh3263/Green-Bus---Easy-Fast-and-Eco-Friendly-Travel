@@ -50,7 +50,7 @@ export class BookingComponent {
       // Add seat if not already selected
       this.selectedSeats.push(seat);
     }
-    console.log(this.selectedSeats);
+    // console.log(this.selectedSeats);
   }
 
   /** Calculate total price */
