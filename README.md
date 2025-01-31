@@ -1,27 +1,25 @@
-# GreenBus
+# Green-Bus---Easy-Fast-and-Eco-Friendly-Travel
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
+Green Bus is an inter-city bus booking platform designed to make travel seamless, efficient, and environmentally friendly. This project simplifies the process of finding and reserving bus seats with an intuitive Angular-based frontend and a robust backend system.
 
-## Development server
+✨ Features:  
+✅ User-Friendly Seat Selection – Interactive UI for hassle-free booking  
+✅ Real-Time Availability – Check and reserve seats instantly  
+✅ Secure Payments – Smooth and safe transaction process  
+✅ Eco-Friendly Travel – Encouraging sustainable transport solutions  
+✅ Admin Dashboard – Manage routes, schedules, and bookings effortlessly  
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+🛠️ Tech Stack:  
+Frontend: Angular, Tailwind CSS  
+Backend: (Specify your backend – Node.js, Firebase, etc.)  
+Database: (Mention if using MongoDB, MySQL, Firebase, etc.)  
 
-## Code scaffolding
+🚀 Get Started:  
+Clone the repo: git clone https://github.com/Ritesh3263/Green-Bus---Easy-Fast-and-Eco-Friendly-Travel.git  
+Install dependencies: npm install  
+Run the app: ng serve  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+📌 Contribute:  
+We welcome contributions! Feel free to open issues, submit PRs, and enhance the project.  
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+🌟 Book your next journey the smart way – with Green Bus!
