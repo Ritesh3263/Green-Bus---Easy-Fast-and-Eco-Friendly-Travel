@@ -1,0 +1,434 @@
+<div class="min-h-screen bg-green-50">
+  <!-- Navigation -->
+  <nav class="bg-green-50 shadow">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        
+        <div class="text-2xl font-bold text-green-600"><i class="fa-solid fa-van-shuttle text-green-600 mr-2"></i>Green Bus</div>
+        <div class="space-x-6">
+          <button class="font-medium text-green-600 hover:text-gray-600">Track My Bus</button>
+          <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Login</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-green-600 to-green-400 py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-4xl font-bold text-white mb-8">Book Bus Tickets</h1>
+      
+      <!-- Search Form -->
+      <div class="bg-white rounded-lg p-6 shadow-lg">
+        <div class="relative grid grid-cols-1 md:grid-cols-[22%,45px,22%,22%,22%] gap-2 md:gap-3 lg:gap-4">
+          <!-- From City -->
+          <div class="relative">
+            <label class="block text-sm font-medium text-gray-700 mb-1">From</label>
+            <i class="fa-solid fa-search absolute left-3 top-2/3 transform -translate-y-1/2 text-gray-400"></i>
+            
+            <select [(ngModel)]="searchObj.from" class="w-full p-2 border rounded-md pl-10" type="select" >
+              <option value="" >Select source city</option>
+              <option *ngFor="let option of location$ | async" [value]="option.name">
+                {{ option.name }}
+              </option>
+            </select>
+            
+          </div>
+
+          <!-- Swap Button -->
+          <div class="justify-items-center self-end relative">
+            <div (click)="swapCities()" 
+                class="border rounded-lg hover:shadow-md transition-shadow cursor-pointer text-center content-center self-end w-[30px] md:w-[45px] h-[30px] md:h-[45px] mb-[2px] block max-md:absolute right-0 top-[-4px] bg-green-600 md:bg-transparent z-10">
+              <i class="fas fa-exchange-alt text-white text-[12px] md:text-sm md:text-green-600 transform rotate-90 md:rotate-180 mb-2 md:m-0"></i>
+            </div>
+          </div>
+
+          <!-- To City -->
+          <div class="relative">
+            <label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+            <i class="fa-solid fa-search absolute left-3 top-2/3 transform -translate-y-1/2 text-gray-400"></i>
+
+            <select [(ngModel)]="searchObj.to" class="w-full p-2 border rounded-md pl-10">
+              <option value="" >Select destination city</option>
+              <option *ngFor="let option of location$ | async" [value]="option.name">
+                {{ option.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Date Picker -->
+          <div class="relative w-full">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <input type="date" 
+              [(ngModel)]="searchObj.travelDate"
+              [min]="minDate"
+              class="w-full p-2 pr-16 border rounded-md "
+            >
+            <button type="button" (click)="setToday()"
+              class="absolute right-2 top-2/3 transform -translate-y-1/2 text-green-600 font-medium px-3 py-1 text-sm rounded">
+              Today
+            </button>
+          </div>
+
+          <!-- Search Button -->
+          <button (click)="searchBuses()" 
+                  class="bg-green-600 text-white p-2 rounded-md hover:bg-green-700 h-10 mt-2 md:mt-6">
+            Search Buses
+          </button>
+
+          
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bus Search Results -->
+<div *ngIf="filteredBuses && filteredBuses.length > 0" class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+  <!-- Search Summary -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-green-100">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+      <div>
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h2 class="text-xl sm:text-2xl font-bold text-green-700">{{this.searchObj.from}} to {{this.searchObj.to}}</h2>
+          <span class="text-gray-300">|</span>
+          <span class="text-sm sm:text-base text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+            {{this.searchObj.travelDate | date: 'fullDate'}}
+          </span>
+        </div>
+        <p class="text-gray-600 flex items-center gap-2">
+          <i class="fas fa-bus text-green-600"></i>
+          <span class="font-medium">{{filteredBuses.length}} buses found</span>
+        </p>
+      </div>
+      <button (click)="resetSearch()" 
+              class="group flex items-center gap-2 text-sm sm:text-base font-medium text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 px-4 py-2 rounded-full transition-all">
+        <i class="fas fa-edit"></i>
+        <span>Modify Search</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bus List -->
+  <div class="grid gap-6">
+    <div class="space-y-6" *ngFor="let item of filteredBuses">
+      <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100">
+        <div class="p-6">
+          <!-- Bus Header -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
+            <div>
+              <div class="flex items-center gap-3 mb-2">
+                <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{item.vendorName}}</h3>
+                <span class="text-xs px-2 py-1 rounded-full {{item.busTypeAC ? 'bg-blue-50 text-blue-600' : 'bg-gray-50 text-gray-600'}}">
+                  {{item.busTypeAC? "AC Sleeper": "Non-AC"}}
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fas fa-star text-yellow-400"></i>
+                <span class="text-sm font-medium">{{item.busRating | number:'1.1'}}/5</span>
+              </div>
+            </div>
+            <div class="text-left sm:text-right bg-green-50 px-4 py-2 rounded-lg">
+              <p class="text-xl sm:text-2xl font-bold text-green-600">₹{{item.price}}</p>
+              <p class="text-sm text-green-700">
+                <i class="fas fa-chair mr-1"></i>
+                {{item.seatsLeft}} seats left
+              </p>
+            </div>
+          </div>
+
+          <!-- Journey Details -->
+          <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-8">
+              <div class="text-center">
+                <p class="text-lg sm:text-xl font-bold text-gray-800">{{item.departureTime | date:'HH:mm'}}</p>
+                <p class="text-sm text-gray-600">{{item.fromLocationName}}</p>
+              </div>
+              <div class="flex items-center gap-3 flex-1 justify-center">
+                <div class="h-[2px] w-12 sm:w-16 bg-green-200"></div>
+                <div class="flex flex-col items-center">
+                  <i class="fas fa-clock w-5 h-5 text-green-600 mb-1"></i>
+                  <span class="text-xs sm:text-sm font-medium text-gray-600">
+                    {{ item.departureTime | journeyTime: item.arrivalTime }}
+                  </span>
+                </div>
+                <div class="h-[2px] w-12 sm:w-16 bg-green-200"></div>
+              </div>
+              <div class="text-center">
+                <p class="text-lg sm:text-xl font-bold text-gray-800">{{item.arrivalTime | date:'HH:mm'}}</p>
+                <p class="text-sm text-gray-600">{{item.toLocationName}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
+            <span *ngFor="let amenity of item.Amenities" 
+                  class="bg-gray-50 hover:bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-xs sm:text-sm flex items-center gap-2 transition-colors">
+              <i class="fas fa-check text-green-500"></i>
+              {{amenity}}
+            </span>
+          </div>
+
+          <!-- Footer -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 pt-4 border-t">
+            <div class="flex flex-wrap items-center gap-4">
+              <div class="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full">
+                <i class="fas fa-shield-alt w-4 h-4 text-green-600"></i>
+                <span class="text-xs sm:text-sm font-medium text-gray-700">Secure Booking</span>
+              </div>
+              <div *ngIf="item.liveTracking" class="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full">
+                <i class="fas fa-bus w-4 h-4 text-blue-600"></i>
+                <span class="text-xs sm:text-sm font-medium text-blue-700">Live Tracking</span>
+              </div>
+            </div>
+            <button [routerLink]="['/booking/',item.scheduleId]" 
+                    class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors">
+              <span>Select Seats</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Popular Routes -->
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+      <div class="flex items-baseline justify-center gap-3 mb-4">
+          <i class="fa fa-route text-xl text-green-600"></i>
+          <h2 class="text-2xl font-bold">Popular Routes</h2>
+      </div>
+      <p class="text-gray-600">Packup and leave for your next adventure with us</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div *ngFor="let route of popularRoutes" 
+            class="border border-green-600 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+            (click)="selectRoute(route)">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <span class="font-medium">{{route.from}}</span>
+            <i class="fas fa-arrow-right mx-2 text-gray-400"></i>
+            <span class="font-medium">{{route.to}}</span>
+          </div>
+          <p class="text-green-600 font-semibold">From ₹{{route.price}}</p>
+        </div>
+        <p class="text-sm text-gray-500 mt-2">{{route.busCount}} buses available</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Offers Section -->
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+      <div class="flex items-baseline justify-center gap-3 mb-4">
+          <i class="fa fa-percentage text-xl text-green-600"></i>
+          <h2 class="text-2xl font-bold">Current Offers</h2>
+      </div>
+      <p class="text-gray-600">Get the best possible deal on you ride with ongoing offers</p>
+    </div>
+    
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- Offer div 1 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                    FIRST50
+                </div>
+                <i class="fas fa-gift text-green-600"></i>
+            </div>
+            <div class="text-2xl font-bold text-green-600 mb-2">50% OFF</div>
+            <p class="text-gray-600 mb-2">Get 50% off on your first booking</p>
+            <p class="text-sm text-gray-500">Valid till 31st Feb 2025</p>
+        </div>
+
+        <!-- Offer div 2 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                    WEEKEND25
+                </div>
+                <i class="fas fa-gift text-green-600"></i>
+            </div>
+            <div class="text-2xl font-bold text-green-600 mb-2">25% OFF</div>
+            <p class="text-gray-600 mb-2">Special weekend discount on all routes</p>
+            <p class="text-sm text-gray-500">Valid till 31st March 2025</p>
+        </div>
+
+        <!-- Offer div 3 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                    SUMMER30
+                </div>
+                <i class="fas fa-gift text-green-600"></i>
+            </div>
+            <div class="text-2xl font-bold text-green-600 mb-2">30% OFF</div>
+            <p class="text-gray-600 mb-2">Summer vacation special offers</p>
+            <p class="text-sm text-gray-500">Valid till 30th April 2025</p>
+        </div>
+    </div>
+  </div>
+
+
+  <!-- Why Choose Green Bus Section -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+        <div class="flex items-baseline justify-center gap-3 mb-4">
+            <i class="fas fa-thumbs-up text-2xl text-green-600"></i>
+            <h2 class="text-2xl font-bold">Why Choose Green Bus?</h2>
+        </div>
+        <p class="text-gray-600">Experience the best bus booking service in the country</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Card 1 -->
+        <div class="bg-white rounded-lg shadow text-center hover:shadow-lg transition-shadow">
+            <div class="p-6">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-users w-12 h-12 text-green-600 text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">10M+ Happy Customers</h3>
+                <p class="text-gray-600">Join millions of satisfied travelers who trust Green Bus</p>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white rounded-lg shadow text-center hover:shadow-lg transition-shadow">
+            <div class="p-6">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-map-marker-alt w-12 h-12 text-green-600 text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">2000+ Routes</h3>
+                <p class="text-gray-600">Covering all major cities and tourist destinations</p>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white rounded-lg shadow text-center hover:shadow-lg transition-shadow">
+            <div class="p-6">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-bus w-12 h-12 text-green-600 text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">500+ Bus Partners</h3>
+                <p class="text-gray-600">Trusted bus operators with top-rated services</p>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white rounded-lg shadow text-center hover:shadow-lg transition-shadow">
+            <div class="p-6">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-phone w-12 h-12 text-green-600 text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">24/7 Support</h3>
+                <p class="text-gray-600">Round-the-clock customer support for your convenience</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold mb-6">Our Features</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
+            <div class="p-4 flex items-center gap-3">
+                <i class="fas fa-tag text-green-600 w-6 h-6"></i>
+                <div>
+                    <h3 class="font-semibold">Best Prices</h3>
+                    <p class="text-sm text-gray-600">Guaranteed lowest fares</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
+            <div class="p-4 flex items-center gap-3">
+                <i class="fas fa-bus text-green-600 w-6 h-6"></i>
+                <div>
+                    <h3 class="font-semibold">Clean Buses</h3>
+                    <p class="text-sm text-gray-600">Sanitized for safety</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
+            <div class="p-4 flex items-center gap-3">
+                <i class="fas fa-clock text-green-600 w-6 h-6"></i>
+                <div>
+                    <h3 class="font-semibold">On-Time</h3>
+                    <p class="text-sm text-gray-600">Live tracking available</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
+            <div class="p-4 flex items-center gap-3">
+                <i class="fas fa-shield-alt text-green-600 w-6 h-6"></i>
+                <div>
+                    <h3 class="font-semibold">Secure Booking</h3>
+                    <p class="text-sm text-gray-600">100% secure payments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-green-600 to-green-400  text-white py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <!-- Contact Us -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-200">24/7 Customer Support</p>
+                <p class="text-gray-200">1800-123-4567</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-200 hover:text-white">About Us</a></li>
+                    <li><a href="#" class="text-gray-200 hover:text-white">Contact Us</a></li>
+                    <li><a href="#" class="text-gray-200 hover:text-white">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <!-- Popular Routes -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Popular Routes</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-200 hover:text-white">Mumbai - Pune</a></li>
+                    <li><a href="#" class="text-gray-200 hover:text-white">Delhi - Jaipur</a></li>
+                    <li><a href="#" class="text-gray-200 hover:text-white">Bangalore - Chennai</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Links -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-200 hover:text-white">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-200 hover:text-white">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-200 hover:text-white">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </footer>
+
+
+</div>
