@@ -1,9 +1,9 @@
 <!-- Modal Overlay -->
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-white rounded-xl w-full max-w-6xl max-h-[95vh] overflow-y-auto">
         <div class="p-4 sm:p-6">
             <!-- Header -->
-            <div class="flex flex-col sm:flex-row justify-between items-start mb-6 pb-6 border-b">
+            <div class="flex flex-wrap flex-row justify-between items-start mb-3 md:mb-6 pb-4 md:pb-6 border-b">
                 <div>
                     <div class="flex flex-wrap gap-2 mb-2 items-end">
                         <h2 class="text-xl sm:text-2xl font-bold">{{scheduleData?.vendorName}}</h2>
@@ -11,16 +11,16 @@
                             {{scheduleData?.busTypeAC? "AC Sleeper": "Non-AC Sleeper"}}
                         </span>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mt-4">
+                    <div class="flex flex-wrap flex-row items-center gap-4 sm:gap-6 mt-4">
                         <div>
                             <p class="text-xl sm:text-2xl font-semibold">{{scheduleData?.departureTime | date:'HH:mm'}}</p>
                             <p class="text-gray-600">{{scheduleData?.fromLocationName}}</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <div class="h-[2px] w-16 bg-gray-300 hidden sm:block"></div>
+                            <div class="h-[2px] w-6  md:w-16 bg-gray-300 block"></div>
                             <i class="fas fa-clock w-4 h-4 text-gray-400"></i>
                             <span class="text-sm text-gray-600">{{ scheduleData?.departureTime | journeyTime: scheduleData?.arrivalTime }}</span>
-                            <div class="h-[2px] w-16 bg-gray-300 hidden sm:block"></div>
+                            <div class="h-[2px] w-6  md:w-16 bg-gray-300 block"></div>
                         </div>
                         <div>
                             <p class="text-xl sm:text-2xl font-semibold">{{scheduleData?.arrivalTime | date:'HH:mm'}}</p>
@@ -29,7 +29,7 @@
                     </div>
                     <p class="text-gray-600 mt-2">{{scheduleData?.departureTime | date: 'fullDate'}}</p>
                 </div>
-                <button [routerLink]="['/search']" class="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition-colors mt-4 sm:mt-0">
+                <button [routerLink]="['/search']" class="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6L6 18M6 6l12 12"></path>
                     </svg>
@@ -37,11 +37,11 @@
             </div>
     
             <!-- Main Content -->
-            <div class="flex flex-col lg:flex-row gap-8">
+            <div class="flex flex-col lg:flex-row gap-4 md:gap-8">
                 <!-- Left Section - Seat Layout -->
                 <div class="flex-1">
                     <!-- Deck Selection -->
-                    <div class="flex gap-2 mb-8">
+                    <div class="flex gap-2 mb-3 md:mb-8">
                         <button (click)="switchDeck('lowerDeck')" [ngClass]="{'bg-green-600 text-white shadow-lg shadow-green-200': selectedDeck === 'lowerDeck','bg-gray-100 text-gray-700 hover:bg-gray-200': selectedDeck === 'upperDeck'}" class="flex-1 px-4 py-3 rounded-lg font-medium">
                             Lower Deck
                         </button>
@@ -51,44 +51,51 @@
                     </div>
         
                     <!-- Seat Legend -->
-                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-gray-50 p-2 md:p-4 rounded-lg mb-3 md:mb-6">
+                        <div class="grid grid-cols-4 sm:grid-cols-4 gap-3 md:gap-4">
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 border-2 rounded-lg bg-white"></div>
-                                <span class="text-sm">Available</span>
+                                <span class="hidden sm:block text-xs sm:text-sm">Available</span>
+                                <span class="block sm:hidden text-xs sm:text-sm">AVL</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 border-2 rounded-lg bg-gray-200 opacity-50 border-gray-300"></div>
-                                <span class="text-sm">Booked</span>
+                                <span class="hidden sm:block text-xs md:text-sm">Booked</span>
+                                <span class="block sm:hidden text-xs md:text-sm">BKD</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 border-2 rounded-lg bg-green-500 ring-2 ring-green-600 ring-offset-1"></div>
-                                <span class="text-sm">Selected</span>
+                                <span class="hidden sm:block text-xs md:text-sm">Selected</span>
+                                <span class="block sm:hidden text-xs md:text-sm">Selct</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 border-2 rounded-lg bg-pink-200 border-pink-300 opacity-50"></div>
-                                <span class="text-sm">Ladies</span>
+                                <span class="hidden sm:block text-xs md:text-sm">Ladies</span>
+                                <span class="block sm:hidden text-xs md:text-sm">lds</span>
                             </div>
                         </div>
                     </div>
         
                     <!-- Seats Container -->
-                    <div class="bg-gray-50 p-4 sm:p-6 rounded-lg">
+                    <div class="overflow-auto max-h-[40vh] bg-gray-50 p-4 sm:p-6 rounded-lg">
                         <!-- Driver Seat -->
-                        <div class="flex justify-end mb-8">
-                            <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <div class="flex justify-end mb-4 md:mb-8">
+                            <div class="hidden md:flex w-16 h-16 bg-gray-200 rounded-lg items-center justify-center">
                                 <svg class="text-grey-600 h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="#4b5563" width="40px" height="40px" viewBox="0 0 24 24" id="steering-wheel" data-name="Flat Color" class="icon flat-color"><path id="primary" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,2a8,8,0,0,1,7.38,4.92A29.93,29.93,0,0,0,12,8a29.63,29.63,0,0,0-7.4.94A8,8,0,0,1,12,4ZM4,12.67l1.11-.13A4.38,4.38,0,0,1,10,16.89v2.85A8,8,0,0,1,4,12.67Zm10,7.07V16.89a4.38,4.38,0,0,1,4.86-4.35l1.11.13A8,8,0,0,1,14,19.74Z" style="fill: rgb(75, 85, 99);"/></svg>
+                            </div>
+                            <div class="flex md:hidden w-10 h-10 bg-gray-200 rounded-lg items-center justify-center">
+                                <svg class="text-grey-600 h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="#4b5563" width="30px" height="30px" viewBox="0 0 24 24" id="steering-wheel" data-name="Flat Color" class="icon flat-color"><path id="primary" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,2a8,8,0,0,1,7.38,4.92A29.93,29.93,0,0,0,12,8a29.63,29.63,0,0,0-7.4.94A8,8,0,0,1,12,4ZM4,12.67l1.11-.13A4.38,4.38,0,0,1,10,16.89v2.85A8,8,0,0,1,4,12.67Zm10,7.07V16.89a4.38,4.38,0,0,1,4.86-4.35l1.11.13A8,8,0,0,1,14,19.74Z" style="fill: rgb(75, 85, 99);"/></svg>
                             </div>
                         </div>
         
                         <!-- Seats Grid -->
                         <!-- lowerDeck seats to be visible when Lower Deck is selected -->
-                        <div *ngIf="selectedDeck === 'lowerDeck'" class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+                        <div *ngIf="selectedDeck === 'lowerDeck'" class="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
                             <ng-container *ngFor="let seat of scheduleData?.seats?.lowerDeck; let i = index">
                                 <!-- Calculate position considering the aisle -->
                                 <ng-container *ngIf="i % 3 === 1">
                                     <!-- Empty aisle space -->
-                                    <div class="w-full h-16 bg-transparent"></div>
+                                    <div class="w-full h-10 md:h-16 bg-transparent"></div>
                                     <!-- Seat that would've been in aisle, shifted right -->
                                     <button 
                                         (click)="toggleSeat(seat)"
@@ -100,7 +107,7 @@
                                             '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
  
                                         }" 
-                                        class="w-full h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                        class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
                                         <div class="text-center">
                                             <span class="text-sm font-medium">{{ seat.label }}</span>
                                         </div>
@@ -119,7 +126,7 @@
                                         '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
 
                                     }" 
-                                    class="w-full h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                    class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
                                     <div class="text-center">
                                         <span class="text-sm font-medium">{{ seat.label }}</span>
                                     </div>
@@ -128,12 +135,12 @@
                         </div>
 
                         <!-- upperDeck seats to be visible when Upper Deck is selected-->
-                        <div *ngIf="selectedDeck === 'upperDeck'" class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+                        <div *ngIf="selectedDeck === 'upperDeck'" class="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
                             <ng-container *ngFor="let seat of scheduleData?.seats?.upperDeck; let i = index">
                                 <!-- Calculate position considering the aisle -->
                                 <ng-container *ngIf="i % 3 === 1">
                                     <!-- Empty aisle space -->
-                                    <div class="w-full h-16 bg-transparent"></div>
+                                    <div class="w-full h-10 md:h-16 bg-transparent"></div>
                                     <!-- Seat that would've been in aisle, shifted right -->
                                     <button 
                                         (click)="toggleSeat(seat)"
@@ -145,7 +152,7 @@
                                             '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
  
                                         }" 
-                                        class="w-full h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                        class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
                                         <div class="text-center">
                                             <span class="text-sm font-medium">{{ seat.label }}</span>
                                         </div>
@@ -164,7 +171,7 @@
                                         '!bg-green-500 text-white ring-2 ring-green-600 ring-offset-1 ': isSeatSelected(seat) 
 
                                     }" 
-                                    class="w-full h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
+                                    class="w-full h-10 md:h-16 border-2 rounded-lg flex items-center justify-center bg-white hover:bg-green-50 hover:border-green-500 cursor-pointer transition-all duration-200">
                                     <div class="text-center">
                                         <span class="text-sm font-medium">{{ seat.label }}</span>
                                     </div>
@@ -175,7 +182,7 @@
                 </div>
         
                 <!-- Right Section - Booking Summary -->
-                <div class="w-full lg:w-96 mt-8 lg:mt-0">
+                <div class="w-full lg:w-96 mt-0">
                     <div class="bg-gray-50 p-4 sm:p-6 rounded-lg lg:sticky lg:top-6">
                         <h3 class="text-xl font-semibold mb-6">Booking Summary</h3>
                         

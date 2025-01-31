@@ -87,11 +87,11 @@
 <div *ngIf="filteredBuses && filteredBuses.length > 0" class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
   <!-- Search Summary -->
   <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-green-100">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+    <div class="flex flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
       <div>
         <div class="flex flex-wrap items-center gap-3 mb-3">
-          <h2 class="text-xl sm:text-2xl font-bold text-green-700">{{this.searchObj.from}} to {{this.searchObj.to}}</h2>
-          <span class="text-gray-300">|</span>
+          <h2 class="text-xl md:text-2xl font-bold text-green-700">{{this.searchObj.from}} to {{this.searchObj.to}}</h2>
+          <span class="text-gray-300 hidden md:flex">|</span>
           <span class="text-sm sm:text-base text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
             {{this.searchObj.travelDate | date: 'fullDate'}}
           </span>
@@ -102,9 +102,10 @@
         </p>
       </div>
       <button (click)="resetSearch()" 
-              class="group flex items-center gap-2 text-sm sm:text-base font-medium text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 px-4 py-2 rounded-full transition-all">
+              class="group flex items-center gap-2 text-sm sm:text-base font-medium text-green-600 hover:text-green-700 bg-green-100 hover:bg-green-100 px-4 py-2 rounded-full transition-all">
         <i class="fas fa-edit"></i>
-        <span>Modify Search</span>
+        <span class="hidden md:block">Modify Search</span>
+
       </button>
     </div>
   </div>
@@ -115,11 +116,11 @@
       <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100">
         <div class="p-6">
           <!-- Bus Header -->
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
+          <div class="flex flex-wrap flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-3 md:mb-6">
             <div>
               <div class="flex items-center gap-3 mb-2">
                 <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{item.vendorName}}</h3>
-                <span class="text-xs px-2 py-1 rounded-full {{item.busTypeAC ? 'bg-blue-50 text-blue-600' : 'bg-gray-50 text-gray-600'}}">
+                <span class="text-xs px-2 py-1 rounded-full {{item.busTypeAC ? 'bg-blue-50 text-blue-600' : 'bg-gray-100 text-gray-600'}}">
                   {{item.busTypeAC? "AC Sleeper": "Non-AC"}}
                 </span>
               </div>
@@ -128,7 +129,7 @@
                 <span class="text-sm font-medium">{{item.busRating | number:'1.1'}}/5</span>
               </div>
             </div>
-            <div class="text-left sm:text-right bg-green-50 px-4 py-2 rounded-lg">
+            <div class="text-left sm:text-right bg-green-100 px-4 py-2 rounded-lg">
               <p class="text-xl sm:text-2xl font-bold text-green-600">₹{{item.price}}</p>
               <p class="text-sm text-green-700">
                 <i class="fas fa-chair mr-1"></i>
@@ -138,8 +139,8 @@
           </div>
 
           <!-- Journey Details -->
-          <div class="bg-gray-50 rounded-lg p-4 mb-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-8">
+          <div class="bg-gray-50 rounded-lg p-4 mb-3 md:mb-6">
+            <div class="flex flex-wrap flex-row items-start sm:items-center justify-between gap-4 sm:gap-8">
               <div class="text-center">
                 <p class="text-lg sm:text-xl font-bold text-gray-800">{{item.departureTime | date:'HH:mm'}}</p>
                 <p class="text-sm text-gray-600">{{item.fromLocationName}}</p>
@@ -162,7 +163,7 @@
           </div>
 
           <!-- Amenities -->
-          <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 md:mb-6">
             <span *ngFor="let amenity of item.Amenities" 
                   class="bg-gray-50 hover:bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-xs sm:text-sm flex items-center gap-2 transition-colors">
               <i class="fas fa-check text-green-500"></i>

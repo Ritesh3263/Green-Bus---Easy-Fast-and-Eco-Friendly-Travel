@@ -6,6 +6,14 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.inline-size-max': {
+          'inline-size': 'max-content',
+        },
+      });
+    },
+  ],
 }
 
