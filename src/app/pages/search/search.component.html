@@ -7,7 +7,8 @@
         <div class="text-2xl font-bold text-green-600"><i class="fa-solid fa-van-shuttle text-green-600 mr-2"></i>Green Bus</div>
         <div class="space-x-6">
           <button class="font-medium text-green-600 hover:text-gray-600">Track My Bus</button>
-          <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Login</button>
+          <button *ngIf="!(auth.user$ | async)" (click)="login()" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Login</button>
+          <button *ngIf="auth.user$ | async" (click)="logout()" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Logout</button>
         </div>
       </div>
     </div>

@@ -20,6 +20,7 @@ import { JourneyTimePipe } from './pipes/pipes';
 import { BookingConfirmedComponent } from './pages/booking-confirmed/booking-confirmed.component';
 import { SeparatePipe } from 'src/app/pipes/seperate.pipes';
 import { LoaderComponent } from './pages/loader/loader.component';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,14 @@ import { LoaderComponent } from './pages/loader/loader.component';
     HttpClientModule,
     CdkOverlayOrigin,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    AuthModule.forRoot({
+      domain: 'dev-ukakag62bxor6pme.us.auth0.com', // Replace with your Auth0 domain
+      clientId: 'B8s3PpaeS8XKLwZSXnx7gq6rB9DKwYnM', // Replace with your Auth0 client ID
+      authorizationParams: {
+        redirect_uri: window.location.origin, // Redirect after login
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

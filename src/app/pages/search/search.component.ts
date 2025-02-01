@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 import { MasterService } from 'src/app/service/master.service';
 
@@ -50,8 +51,15 @@ export class SearchComponent implements OnInit{
   // ];
 
   
-  constructor(private masterService: MasterService){};
-  // Fetch posts when the component initializes
+  constructor(private masterService: MasterService, public auth: AuthService){};
+  
+  login() {
+    this.auth.loginWithRedirect();
+  }
+
+  logout() {
+    this.auth.logout({ logoutParams: { returnTo: window.location.origin } });
+  }
 
   getAllLocations(){
     this.location$ = this.masterService.getLocations();
